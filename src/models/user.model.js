@@ -7,7 +7,7 @@ const userSchema = new Schema ({
         type: String,
         required: true,
         unique: true,
-        lowecase: true,
+        lowercase: true,
         trim: true,
         index: true
     },
@@ -15,7 +15,7 @@ const userSchema = new Schema ({
         type: String,
         required: true,
         unique: true,
-        lowecase: true,
+        lowercase: true,
         trim: true,
     },
     fullName: {
@@ -45,16 +45,16 @@ const userSchema = new Schema ({
 },
 
   {
-    timeseries: true
+    timestamps: true
   }
 )
 
-userSchema.pre("save", async function (next) {
-    if(!this.isModified("password")) return next();
+userSchema.pre("save", async function () {
+    if(!this.isModified("password")) return;
 
-    this.password = await bcrybt.hash(this.password, 10)
-    next()
-})
+    this.password = await bcrybt.hash(this.password, 10);
+    
+});
 
 userSchema.methods.isPasswordCorrect = async function (password) {
     return await bcrybt.compare(password, this.password)
