@@ -4,7 +4,6 @@ import {User} from "../models/user.model.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken"
-import { $size } from "sift";
 import mongoose from "mongoose";
 
 
@@ -154,7 +153,7 @@ const logoutUser = asyncHandler(async(req, res) => {
     req.user._id,
     {
       $set:{
-        refreshToken: undefined
+        refreshToken: 1
       }
     },
     {
@@ -175,7 +174,7 @@ const logoutUser = asyncHandler(async(req, res) => {
 
 })
 
-   const refereshAccessToken = asyncHandler(async (req, res) => {
+   const refreshAccessToken = asyncHandler(async (req, res) => {
     const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
     
     if (!incomingRefreshToken) {
@@ -469,12 +468,13 @@ export {
   registerUser,
   loginUser,
   logoutUser,
-  refereshAccessToken,
+  refreshAccessToken,
   changeCurrentPassword,
   getCurrentUser,
   updateAccountDetails,
   updateUserAvatar,
   updateUserCoverImage,
+  getUserChannelProfile,
   getWatchHistory
 
 }
