@@ -197,7 +197,7 @@ const logoutUser = asyncHandler(async(req, res) => {
        throw new ApiError(401, "Refresh token is expired or used")
      }
  
-     const option = {
+     const options = {
        httpOnly: true,
        secure: true
      }
@@ -353,7 +353,7 @@ const logoutUser = asyncHandler(async(req, res) => {
           {
             
               $lookup: {
-                from: "subscription",
+                from: "subscriptions",
                 localField: "_id",
                 foreignField: "channel",
                 as: "subscribers"
@@ -378,7 +378,7 @@ const logoutUser = asyncHandler(async(req, res) => {
               },
               isSubscribed: {
                 $cond: {
-                  if: {$in: [req.user?._id, "subscribers.subscriber"]},
+                  if: {$in: [req.user?._id, "$subscribers.subscriber"]},
                   then: true,
                   else: false
                 }
